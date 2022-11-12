@@ -14,20 +14,19 @@ void setup() {
 }//setup
 
 void makeLines(int[] xs, int[] ys, int points) {
-  int maxPoints; 
-  maxPoints = points; 
+  numPoints = points; 
   if (ys.length >= xs.length) {
     if (points > xs.length) {
-      maxPoints = xs.length; 
+      numPoints = xs.length; 
     }// set maxPoints to xs.length
   }
   else {
     if (points > ys.length) {
-      maxPoints = ys.length; 
+      numPoints = ys.length; 
     }// set maxPoints to ys.length
   }
   
-  for (int count = 0; count < maxPoints; count++) {
+  for (int count = 0; count < numPoints; count++) {
     xs[count] = int(random(width)); 
     ys[count] = int(random(height)); 
     //println(xs[count], ys[count]); 
@@ -35,14 +34,7 @@ void makeLines(int[] xs, int[] ys, int points) {
 }//makeLines
 
 void drawLines(int[] xs, int[] ys) {
-  int findMax; 
-  if (xs.length >= ys.length) {
-    findMax = xs.length; 
-  }//if
-  else {
-    findMax = ys.length; 
-  }//else
-  for (int count = 0; count < findMax - 1; count++) {
+  for (int count = 0; count < numPoints - 1; count++) {
     stroke(255); 
     line(xs[count], ys[count], xs[count + 1], ys[count + 1]); 
   }//for
