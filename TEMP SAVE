@@ -1,42 +1,94 @@
-//All three "graphs" will use these variables
-int angle; //The degree angle we will use for sin() and cos() functions.
-int dotDiameter;//The size of the circle that will be graphing.
-
-int sinAmplitude;
-int circRadius;
-int spiralRadius;
+int[] xvals; 
+int[] yvals; 
+int numPoints; 
 
 void setup() {
-  size(600, 600);
+  size(600, 400);
   background(0);
-  dotDiameter = 4;
-  sinAmplitude = 100;
-  circRadius = 100;
-  spiralRadius = 100;
-  angle = 0;
-  stroke(255);
+  xvals = new int[100];
+  yvals = new int[100];
+  numPoints = 0;
+  
+  //makeLines(xvals, yvals, 10);
+  drawLines(xvals, yvals);
 }//setup
 
 void draw() {
-  //background(0);
-  //sin curve
-  drawSinCurve(angle, sinAmplitude, sinAmplitude);
-  //circle
-  drawCircle(angle, circRadius, width/2, sinAmplitude*2 + circRadius);
-  //concentric circles
-  drawCircle(angle, spiralRadius, width/2, sinAmplitude*2 + circRadius*3);
+  background(0); 
+  drawLines(xvals, yvals); 
+}
 
-  angle++;
-}//draw
+void keyPressed() {
+  if (key == 'c') { 
+    background(0); 
+  }//if then clear
+  if (key == CODED) {
+    if (keyCode == UP) {
+      moveLines(xvals, yvals, 0, -1); 
+    }//move up
+    if (keyCode == LEFT) {
+      moveLines(xvals, yvals, -1, 0); 
+    }//move left
+    if (keyCode == RIGHT) {
+      moveLines(xvals, yvals, 1, 0); 
+    }//move right
+    if (keyCode == DOWN) {
+      moveLines(xvals, yvals, 0, 1); 
+    }//move down
+  }//if coded
+}
 
-void drawSinCurve(int degrees, int amplitude, int yOffset) {
-  int x = 0; 
-  if (angle >= width) {
-    x += width;
+void mousePressed() {
+  xvals[numPoints] = mouseX; 
+  yvals[numPoints] = mouseY; 
+  numPoints++; 
+}
+
+void makeLines(int[] xs, int[] ys, int points) {
+  numPoints = points; 
+  if (ys.length >= xs.length) {
+    if (points > xs.length) {
+      numPoints = xs.length; 
+    }// set maxPoints to xs.length
   }
-  circle(angle - x, amplitude * sin(radians(degrees)) + yOffset, dotDiameter); 
-}//drawSinCurve
+  else {
+    if (points > ys.length) {
+      numPoints = ys.length; 
+    }// set maxPoints to ys.length
+  }
+  
+  for (int count = 0; count < numPoints; count++) {
+    xs[count] = int(random(width)); 
+    ys[count] = int(random(height)); 
+    //println(xs[count], ys[count]); 
+  }//for
+}//makeLines
 
-void drawCircle(int degrees, int radius, int xOffset, int yOffset) { 
-  circle(radius * cos(radians(degrees)) + xOffset, sin(radians(degrees)) + yOffset, dotDiameter); 
-}//drawCircle
+void drawLines(int[] xs, int[] ys) {
+  //int whichMax; 
+  //if (xs.length >= ys.length) {
+  //  whichMax = ys.length; 
+  //}
+  //else {
+  //  whichMax = xs.length; 
+  //}
+  for (int count = 0; count < numPoints - 1; count++) {
+    stroke(255); 
+    line(xs[count], ys[count], xs[count + 1], ys[count + 1]); 
+  }//for
+}//drawLines
+
+void moveLines(int[] xs, int[] ys, int xMod, int yMod) {
+  int whichMax; 
+  if (xs.length >= ys.length) {
+    whichMax = ys.length; 
+  }
+  else {
+    whichMax = xs.length; 
+  }
+  
+  for (int count = 0; count < whichMax - 1; count++) {
+    xs[count] += xMod; 
+    ys[count] += yMod; 
+  }//for
+}
