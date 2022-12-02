@@ -78,9 +78,6 @@ void liveFire(Land[] row) {
 }//liveFire
 
 
-
-
-
 void keyPressed() {
   if (key == ' ') {
     burning = !burning;
