@@ -23,7 +23,7 @@ void setup() {
   frameRate(5);
   grid = new Land[numTracts][tractLength];
   for (int r=0; r < grid.length; r++) {
-    setupLand(grid, tractLength, grassDensity, r);
+    setupLand(grid, numTracts, tractLength, grassDensity);
   }
   for (int r=0; r < grid.length; r++) {
     showLand(grid);
@@ -31,13 +31,9 @@ void setup() {
 }//setup
 
 void draw() {
-  for (int r=0; r < grid.length; r++) {
-    showLand(grid);
-  }
+  showLand(grid);
   if (burning) {
-    for (int r=0; r < grid.length; r++) {
-      liveFire(grid);
-    }
+    liveFire(grid);
   }//burning
 }//draw
 
@@ -46,7 +42,7 @@ void setupLand(Land[][] field, int numRows, int numPlots, float density) {  //fi
   int plotSize = width / numPlots;
 
   //instantiate each Land object
-  for (int r=0; r<field.length; r++) {
+  for (int r = 0; r < field.length; r++) {
     for (int i=0; i<field[r].length; i++) {
       int type = DIRT;
 
@@ -67,8 +63,8 @@ void setupLand(Land[][] field, int numRows, int numPlots, float density) {  //fi
 }//setupLand
 
 void showLand(Land[][] field) {
-  for (int r=0; r<field.length; r++) {
-    for (int i=0; i<field.length; i++) {
+  for (int r = 0; r < field.length; r++) {
+    for (int i=0; i<field[r].length; i++) {
       field[r][i].display();
     }
   }
@@ -77,15 +73,16 @@ void showLand(Land[][] field) {
 
 void liveFire(Land[][] field) {
   //First, check Land objects to the left, apply state change rules.
-  //Assume nothing useful to the left of row[0]
+  //Assume nothing useful to the left of field[0]
   for (int r=0; r < field.length; r++) {
     field[r][0].updateNextState(0);
+
     for (int i=1; i<field[r].length; i++) {
       field[r][i].updateNextState(field[r][i-1].state);
     }//set nextStates for all plots
 
     //Based on potential state changes from updateNextState
-    for (int i=0; i<field.length; i++) {
+    for (int i=0; i<field[r].length; i++) {
       field[r][i].changeState();
     }//change states
   }
@@ -102,7 +99,7 @@ void keyPressed() {
   else if (key == 'r') {
     burning = false;
     for (int r=0; r < grid.length; r++) {
-      setupLand(grid, tractLength, grassDensity, r);
+      setupLand(grid, numTracts, tractLength, grassDensity);
     }
   }
 }
