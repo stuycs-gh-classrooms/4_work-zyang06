@@ -1,0 +1,13 @@
+size(500, 500);
+PFont font;
+background(#3F4FA1);
+PImage image;
+image = loadImage("0x0.png");
+image(image, 0, 0, width, height);
+textSize(120);
+textAlign(CENTER);
+font = createFont("Georgia", 128);
+textFont(font);
+text("X X Z", 250, 250);
+textSize(12);
+text("not a nft I screenshotted this", 300, 300);
